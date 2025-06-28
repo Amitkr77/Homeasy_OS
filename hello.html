@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homeasy: Visualizing the Smart Home Opportunity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B2D48;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        .kpi-value {
+            font-weight: 900;
+            color: #14A098;
+        }
+
+        .flow-arrow {
+            color: #26628A;
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+
+        #gemini-modal {
+            transition: opacity 0.3s ease;
+        }
+
+        .spinner {
+            border-top-color: #14A098;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="text-gray-200">
+
+    <div id="gemini-modal"
+        class="fixed inset-0 bg-black bg-opacity-70 z-50 flex justify-center items-center p-4 hidden">
+        <div class="bg-slate-800 rounded-xl shadow-2xl p-6 md:p-8 ring-1 ring-white/20 text-center max-w-sm w-full">
+            <div id="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black text-white mb-2">Homeasy</h1>
+            <p class="text-xl md:text-2xl text-gray-300">The Universal Operating System for Your Smart Home</p>
+        </header>
+
+        <main class="space-y-8">
+
+            <section id="problem" class="bg-gray-800/20 rounded-xl shadow-2xl p-6 md:p-8 ring-1 ring-white/10">
+                <h2 class="text-3xl font-bold text-center text-white mb-4">The Smart Home is Broken</h2>
+                <p class="text-center max-w-3xl mx-auto text-gray-300 mb-8">The promise of a seamless, intelligent home
+                    has been replaced by a reality of digital chaos. Consumers are drowning in a sea of incompatible
+                    devices, multiple apps, and growing privacy concerns. This frustration isn't a niche issue; it's a
+                    market-defining crisis.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                    <div class="bg-slate-900/50 p-6 rounded-lg ring-1 ring-white/10">
+                        <div class="text-5xl font-bold text-red-400 mb-2">#1</div>
+                        <h3 class="font-semibold text-white">Pain Point</h3>
+                        <p class="text-sm text-gray-400">Device incompatibility is the most cited frustration among
+                            users.</p>
+                    </div>
+                    <div class="bg-slate-900/50 p-6 rounded-lg ring-1 ring-white/10">
+                        <div class="text-5xl font-bold text-yellow-400 mb-2">29%</div>
+                        <h3 class="font-semibold text-white">Waste More Time</h3>
+                        <p class="text-sm text-gray-400">A significant portion of users spend more time managing their
+                            tech than before.</p>
+                    </div>
+                    <div class="bg-slate-900/50 p-6 rounded-lg ring-1 ring-white/10">
+                        <div class="text-5xl font-bold text-orange-400 mb-2">72%</div>
+                        <h3 class="font-semibold text-white">Fear for Security</h3>
+                        <p class="text-sm text-gray-400">A vast majority are concerned about the security of data their
+                            devices transmit.</p>
+                    </div>
+                    <div class="bg-slate-900/50 p-6 rounded-lg ring-1 ring-white/10">
+                        <div class="text-5xl font-bold text-purple-400 mb-2">57%</div>
+                        <h3 class="font-semibold text-white">Worry About Data Use</h3>
+                        <p class="text-sm text-gray-400">Over half of consumers are worried about how their personal
+                            data is being used.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="opportunity" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-gray-800/20 rounded-xl shadow-2xl p-6 md:p-8 ring-1 ring-white/10">
+                    <h2 class="text-3xl font-bold text-white mb-2">A Fragmented Gold Rush</h2>
+                    <p class="text-gray-300 mb-6">The U.S. Smart Home market is experiencing explosive growth. This
+                        rapid expansion, combined with its structural flaws, creates the perfect entry point for a
+                        unifying platform like Homeasy.</p>
+                    <div class="grid grid-cols-2 gap-6 text-center">
+                        <div class="bg-slate-900/50 p-6 rounded-lg">
+                            <p class="text-sm text-gray-400">2024 Market Value</p>
+                            <p class="text-4xl kpi-value">$32B+</p>
+                        </div>
+                        <div class="bg-slate-900/50 p-6 rounded-lg">
+                            <p class="text-sm text-gray-400">2030 Projection</p>
+                            <p class="text-4xl kpi-value">$84B+</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-800/20 rounded-xl shadow-2xl p-6 md:p-8 ring-1 ring-white/10">
+                    <h2 class="text-3xl font-bold text-white mb-2">Explosive User Adoption</h2>
+                    <p class="text-gray-300 mb-6">The number of U.S. households with smart devices is set to cross the
+                        100 million mark, creating a massive addressable market hungry for a better solution.</p>
+                    <div class="chart-container">
+                        <img src="./assests/user.png" alt="">
+                        <!-- <canvas id="householdsChart">
+                        </canvas> -->
+                    </div>
+                </div>
+            </section>
+            <section id="landscape" class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                <div class="lg:col-span-3 bg-gray-800/20 rounded-xl shadow-2xl p-6 md:p-8 ring-1 ring-white/10">
+                    <h2 class="text-3xl font-bold text-white mb-2">The Unassailable Middle Ground</h2>
+                    <p class="text-gray-300 mb-6">The current market forces a choice: suffer the privacy invasions and
+                        walled gardens of Big Tech, or endure the steep learning curve of DIY systems. Homeasy carves
+                        out a unique space by offering the best of all worlds.</p>
+                    <div class="chart-container h-[400px] md:h-[450px] max-h-[500px]">
+                        <img src="./assests/middle.png" alt="">
+                    </div>
+                </div>
+                <div class="lg:col-span-2 bg-gray-800/20 rounded-xl shadow-2xl p-6 md:p-8 ring-1 ring-white/10">
+                    <h2 class="text-3xl font-bold text-white mb-2">The Privacy Chasm</h2>
+                    <p class="text-gray-300 mb-6">Incumbent platforms are built on data monetization. Their business
+                        model is fundamentally opposed to user privacy. We measure what they collect to highlight our
+                        core differentiator: trust.</p>
+                    <div class="chart-container">
+                        <img src="./assests/privacy.png" alt="">
+                    </div>
+                </div>
+            </section>
+
+            <section id="solution" class="bg-gray-800/20 rounded-xl shadow-2xl p-6 md:p-8 ring-1 ring-white/10">
+                <h2 class="text-3xl font-bold text-center text-white mb-4">The Homeasy GTM Strategy</h2>
+                <p class="text-center max-w-3xl mx-auto text-gray-300 mb-10">Our go-to-market is a disciplined, phased
+                    approach to build a loyal user base and scale efficiently, moving from niche enthusiasts to
+                    mainstream market leadership.</p>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-0">
+                    <div class="flex-1 text-center bg-slate-900/50 p-6 rounded-lg ring-1 ring-white/10 max-w-sm">
+                        <p class="text-sm font-bold text-cyan-400">PHASE 1</p>
+                        <h3 class="text-xl font-bold text-white mt-2 mb-2">The Beachhead</h3>
+                        <p class="text-sm text-gray-400">Target "Frustrated Tech Adopters" on Reddit, YouTube, and tech
+                            forums to build a core of fanatical early users.</p>
+                    </div>
+                    <div class="flow-arrow transform md:-rotate-0 -rotate-90">➔</div>
+                    <div class="flex-1 text-center bg-slate-900/50 p-6 rounded-lg ring-1 ring-white/10 max-w-sm">
+                        <p class="text-sm font-bold text-teal-400">PHASE 2</p>
+                        <h3 class="text-xl font-bold text-white mt-2 mb-2">The Expansion</h3>
+                        <p class="text-sm text-gray-400">Target "Privacy-Conscious Families" via mainstream PR and
+                            partnerships with privacy-first hardware brands.</p>
+                    </div>
+                    <div class="flow-arrow transform md:-rotate-0 -rotate-90">➔</div>
+                    <div class="flex-1 text-center bg-slate-900/50 p-6 rounded-lg ring-1 ring-white/10 max-w-sm">
+                        <p class="text-sm font-bold text-green-400">PHASE 3</p>
+                        <h3 class="text-xl font-bold text-white mt-2 mb-2">The Scale</h3>
+                        <p class="text-sm text-gray-400">Engage B2B channels like home installers, real estate
+                            developers, and the growing home healthcare sector.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="business" class="bg-gray-800/20 rounded-xl shadow-2xl p-6 md:p-8 ring-1 ring-white/10">
+                <h2 class="text-3xl font-bold text-white mb-2 text-center">A User-Aligned Business Model</h2>
+                <p class="text-gray-300 mb-6 text-center max-w-3xl mx-auto">Our hybrid freemium-subscription model is
+                    designed for rapid user acquisition and sustainable, high-margin recurring revenue. We solve the
+                    biggest pain point for free to build trust, then convert users to a powerful premium tier.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+                    <div class="border-2 border-cyan-500/50 p-6 rounded-lg bg-slate-900/50 flex flex-col">
+                        <h3 class="font-bold text-xl text-white">Free Tier</h3>
+                        <p class="text-gray-300 mt-2">Connect up to 15 devices & 10 automations. The perfect entry
+                            point.</p>
+                    </div>
+                    <div class="border-2 border-teal-400 p-6 rounded-lg bg-slate-900/50 flex flex-col">
+                        <h3 class="font-bold text-xl text-white">Premium Tier</h3>
+                        <p class="text-gray-300 mt-2 flex-grow">Unlimited devices, AI-powered predictive automations,
+                            and secure family sharing. Try our AI demo below:</p>
+                        <div class="mt-4 bg-slate-900/70 p-4 rounded-md ring-1 ring-white/10">
+                            <label for="scenario-input" class="text-sm font-medium text-gray-300">Enter a daily
+                                scenario:</label>
+                            <input id="scenario-input" type="text" placeholder="e.g., Movie night"
+                                class="w-full bg-slate-700 text-white rounded-md p-2 mt-2 border border-slate-600 focus:ring-2 focus:ring-teal-400 focus:outline-none">
+                            <button id="generate-automation-btn"
+                                class="w-full mt-3 bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 px-4 rounded-md transition duration-300 flex items-center justify-center">
+                                ✨ Generate Automation Idea
+                            </button>
+                            <div id="gemini-output"
+                                class="mt-4 text-sm text-gray-300 bg-slate-800/50 p-3 rounded-md min-h-[60px] border border-slate-700/50">
+                                <p class="text-gray-400">AI suggestion will appear here...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ask" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div
+                    class="bg-gray-800/20 rounded-xl shadow-2xl p-6 md:p-8 ring-1 ring-white/10 flex flex-col justify-center">
+                    <h2 class="text-3xl font-bold text-white mb-2">Fueling Growth: The Ask</h2>
+                    <p class="text-gray-300 mb-6">We are seeking $2.5M in seed funding to execute our go-to-market
+                        strategy, accelerate product development, and capture the market. This provides 18 months of
+                        runway.</p>
+                    <div class="text-center text-5xl font-black kpi-value">$5M</div>
+                    <p class="text-center text-gray-400 mt-2">Seed Funding</p>
+                </div>
+                <div class="bg-gray-800/20 rounded-xl shadow-2xl p-6 md:p-8 ring-1 ring-white/10">
+                    <h2 class="text-3xl font-bold text-white mb-2 text-center">Use of Funds</h2>
+                    <div class="chart-container h-[250px] md:h-[300px]">
+                        <img src="./assests/fund.png" alt="">
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-12 pt-8 border-t border-gray-700">
+            <p class="text-gray-400">&copy; 2025 Homeasy. Your Home, Simplified.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const wrapLabel = (label, maxLength = 16) => {
+                if (typeof label !== 'string' || label.length <= maxLength) {
+                    return label;
+                }
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + ' ' + word).trim().length > maxLength) {
+                        lines.push(currentLine.trim());
+                        currentLine = word;
+                    } else {
+                        currentLine = (currentLine + ' ' + word).trim();
+                    }
+                }
+                if (currentLine) {
+                    lines.push(currentLine.trim());
+                }
+                return lines;
+            };
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                }
+                return label;
+            };
+
+            const globalChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#e5e7eb',
+                            font: { size: 14 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        },
+                        backgroundColor: '#0B2D48',
+                        titleColor: '#FFFFFF',
+                        bodyColor: '#e5e7eb',
+                        borderColor: '#14A098',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#9ca3af' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    },
+                    x: {
+                        ticks: { color: '#9ca3af' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    }
+                }
+            };
+
+            if (document.getElementById('householdsChart')) {
+                const householdsCtx = document.getElementById('householdsChart').getContext('2d');
+                new Chart(householdsCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['2024', '2025', '2026', '2027', '2028'],
+                        datasets: [{
+                            label: 'U.S. Smart Households (in Millions)',
+                            data: [69.91, 77.05, 84.9, 92.7, 100.5],
+                            fill: true,
+                            backgroundColor: 'rgba(20, 160, 152, 0.2)',
+                            borderColor: '#14A098',
+                            tension: 0.4
+                        }]
+                    },
+                    options: globalChartOptions
+                });
+            }
+
+            if (document.getElementById('competitiveRadarChart')) {
+                const radarCtx = document.getElementById('competitiveRadarChart').getContext('2d');
+                new Chart(radarCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['True Interoperability', 'Ease of Use', 'User Privacy', 'Low Cost/Barrier', 'Powerful Automation'],
+                        datasets: [
+                            {
+                                label: 'Homeasy',
+                                data: [5, 5, 5, 4, 4],
+                                borderColor: '#14A098',
+                                backgroundColor: 'rgba(20, 160, 152, 0.2)',
+                            },
+                            {
+                                label: 'Big Tech (Google/Amazon)',
+                                data: [3, 4, 1, 4, 2],
+                                borderColor: '#ef4444',
+                                backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                            },
+                            {
+                                label: 'DIY (Home Assistant)',
+                                data: [5, 1, 5, 2, 5],
+                                borderColor: '#3b82f6',
+                                backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            }
+                        ]
+                    },
+                    options: {
+                        ...globalChartOptions,
+                        scales: {
+                            r: {
+                                angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                pointLabels: { color: '#e5e7eb', font: { size: 12 } },
+                                ticks: {
+                                    color: '#e5e7eb',
+                                    backdropColor: 'rgba(0,0,0,0.5)',
+                                    stepSize: 1
+                                },
+                                suggestedMin: 0,
+                                suggestedMax: 5
+                            }
+                        }
+                    }
+                });
+            }
+
+            if (document.getElementById('privacyChart')) {
+                const privacyCtx = document.getElementById('privacyChart').getContext('2d');
+                new Chart(privacyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Amazon Alexa', 'Google Home', 'Homeasy (Our Promise)'].map(l => wrapLabel(l)),
+                        datasets: [{
+                            label: 'Data Points Collected',
+                            data: [28, 22, 0],
+                            backgroundColor: [
+                                'rgba(59, 130, 246, 0.7)',
+                                'rgba(239, 68, 68, 0.7)',
+                                'rgba(20, 160, 152, 0.7)'
+                            ],
+                            borderColor: [
+                                '#3b82f6',
+                                '#ef4444',
+                                '#14A098'
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: { ...globalChartOptions, indexAxis: 'y', plugins: { legend: { display: false } } }
+                });
+            }
+
+            if (document.getElementById('fundsChart')) {
+                const fundsCtx = document.getElementById('fundsChart').getContext('2d');
+                new Chart(fundsCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Product & Engineering (40%)', 'Sales & Marketing (40%)', 'Operations & G&A (20%)'],
+                        datasets: [{
+                            label: 'Use of Funds',
+                            data: [40, 40, 20],
+                            backgroundColor: [
+                                '#14A098',
+                                '#26628A',
+                                '#0B2D48'
+                            ],
+                            borderColor: '#1f2937',
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        ...globalChartOptions,
+                        scales: {},
+                        plugins: { legend: { position: 'bottom' } }
+                    }
+                });
+            }
+
+            const generateBtn = document.getElementById('generate-automation-btn');
+            const scenarioInput = document.getElementById('scenario-input');
+            const geminiOutput = document.getElementById('gemini-output');
+            const modal = document.getElementById('gemini-modal');
+            const modalContent = document.getElementById('modal-content');
+
+            const showModal = (content) => {
+                modalContent.innerHTML = content;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            };
+
+            const hideModal = () => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                modalContent.innerHTML = '';
+            };
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    hideModal();
+                }
+            });
+
+            generateBtn.addEventListener('click', async () => {
+                const scenario = scenarioInput.value.trim();
+                if (!scenario) {
+                    showModal('<h3 class="text-xl font-bold text-white mb-2">Input Required</h3><p class="text-gray-300">Please enter a scenario first.</p><button onclick="document.getElementById(\'gemini-modal\').classList.add(\'hidden\')" class="mt-4 bg-teal-600 text-white font-bold py-2 px-4 rounded-md">OK</button>');
+                    return;
+                }
+
+                showModal('<div class="flex flex-col items-center"><div class="spinner w-12 h-12 rounded-full border-4 border-slate-600 border-t-teal-500 mb-4"></div><p class="text-white">✨ Contacting Homeasy AI...</p></div>');
+                geminiOutput.innerHTML = '<p class="text-gray-400">Thinking of something clever...</p>';
+
+                const prompt = `You are an AI assistant for a smart home app called Homeasy. Your purpose is to generate creative, impressive, and predictive multi-step automation rules that go beyond simple 'if this, then that' logic. A potential investor is testing this feature.
+
+                A user has described a situation: "${scenario}".
+
+                Based on this, generate a creative, multi-step smart home automation rule that Homeasy could perform. The rule should sound impressive and showcase the power of AI. Make it sound like a premium feature. Start with a bolded title for the automation.
+
+                Example Input: "Leaving for work"
+                Example Output: "**Intelligent Departure Sequence:** When you leave, Homeasy will check your calendar. If no meetings are scheduled in the next hour, it will set the thermostat to eco mode, start the robot vacuum in the living room, arm the security system, and ensure all doors are locked. It will also check traffic and send a notification to your phone if your commute is longer than usual."
+                
+                Generate a new rule for the user's input.`;
+
+                const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                const payload = { contents: chatHistory };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        // throw new Error(API Error: ${response.status});
+                        console.log(response);
+
+                    }
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        geminiOutput.innerHTML = text.replace(/\\(.?)\\*/g, '<strong>$1</strong>');
+                    } else {
+                        throw new Error("Invalid response structure from API.");
+                    }
+                } catch (error) {
+                    console.error("Gemini API call failed:", error);
+                    geminiOutput.innerHTML = <p class="text-red-400">Error: Could not generate an idea. Please try again later.</p>;
+                } finally {
+                    hideModal();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
